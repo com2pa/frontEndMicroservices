@@ -34,7 +34,7 @@ const Post = () => {
   const fetchUserId = async () => {
     try {
       const { data } = await axios.get('/api/users');
-      setUserId(data[0].id);
+      setUserId(data.id);
       // console.log('user id',data[0].id);
     } catch (error) {
       console.error('Error fetching user ID:', error);

@@ -21,7 +21,7 @@ export const Index = () => {
   const [error, setError] = useState(null);
   const [commentInputs, setCommentInputs] = useState({}); // Para manejar comentarios por post
   const [newComment, setNewComment] = useState([]);
-  console.log(newComment);
+  
   // Obtener todos los posts
   const fetchPosts = async () => {
     try {
