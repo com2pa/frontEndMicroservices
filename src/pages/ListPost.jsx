@@ -32,7 +32,7 @@ const ListPost = ({ post, handleDelete }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/comment/${postId}`,
+        `/api/comment/${postId}`,
         { text }
       );
       // Actualiza la lista de comentarios

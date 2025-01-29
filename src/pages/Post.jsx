@@ -107,7 +107,8 @@ const Post = () => {
       toast({
         position: 'top',
         title: 'Success',
-        description:'El post ha sido eliminado correctamente.', data,
+        description: 'El post ha sido eliminado correctamente.',
+        data,
         status: 'success',
         duration: 4000,
         isClosable: true,
