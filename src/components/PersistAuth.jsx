@@ -1,10 +1,10 @@
 // Mantener sesion persistida
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Card, Center, Flex, Heading, Spinner, Text } from "@chakra-ui/react";
-import {BoxesLoader} from "react-awesome-loaders-py3";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Card, Center, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
+import { BoxesLoader } from 'react-awesome-loaders-py3';
 
 const PersistAuth = () => {
   const location = useLocation();
@@ -27,15 +27,16 @@ const PersistAuth = () => {
       }
     };
     handleUser();
-
   }, [setAuth]);
 
   //CUANDO CARGARDO EL USUARIO
   if (isLoading) {
     // return <Center margin="5rem" flexDirection="column"> <Card padding="2rem 5rem" background="gray.500" > <Heading> Cargando</Heading><Flex justify="center" mt="1rem"><Text> Aguarde unos  Minutos !</Text><Spinner size='md' color="red.600"/></Flex> </Card></Center>;
     return (
-      <Center margin="5rem" flexDirection="column">
-
+      <Center
+        margin='5rem'
+        flexDirection='column'
+      >
         {/* <BookLoader
           text="Aguarde unos minutos.."
           background={"linear-gradient(135deg, #6066FA, yellow)"}
@@ -46,12 +47,12 @@ const PersistAuth = () => {
         
         /> */}
         <BoxesLoader
-        boxColor={"#6366F1"}
-        style={{ marginBottom: "20px" }}
-        desktopSize={"128px"}
-        mobileSize={"80px"}
-        text="Aguarde unos minutos.."
-      />
+          boxColor={'#6366F1'}
+          style={{ marginBottom: '20px' }}
+          desktopSize={'128px'}
+          mobileSize={'80px'}
+          text='Aguarde unos minutos..'
+        />
       </Center>
     );
   }
@@ -59,7 +60,13 @@ const PersistAuth = () => {
   //cuando estdoy en home
   if (location.pathname === '/') {
     if (auth?.name) {
-      return <Navigate to='/dashboard' state={{ from: location }} replace />;
+      return (
+        <Navigate
+          to='/dashboard'
+          state={{ from: location }}
+          replace
+        />
+      );
     } else {
       return <Outlet />;
     }
@@ -69,10 +76,14 @@ const PersistAuth = () => {
   if (auth?.name) {
     return <Outlet />;
   } else {
-    return <Navigate to='/' state={{ from: location }} replace />;
+    return (
+      <Navigate
+        to='/'
+        state={{ from: location }}
+        replace
+      />
+    );
   }
-
-
 };
 
 export default PersistAuth;

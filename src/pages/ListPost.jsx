@@ -4,21 +4,25 @@ import {
   Flex,
   FormControl,
   Heading,
-  HStack,
   Input,
-  InputGroup,
-  InputRightElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Text,
+  useDisclosure,
   useToast,
-  Card,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 
-const ListPost = ({ post }) => {
+const ListPost = ({ post, handleDelete }) => {
   const [comment, setComment] = useState('');
   const [newComment, setNewComment] = useState([]);
-  // console.log(newComment)
+  const { isOpen, onOpen, onClose } = useDisclosure();  
   const toast = useToast();
 
   const handleComment = async (e) => {
@@ -58,12 +62,11 @@ const ListPost = ({ post }) => {
   };
 
   // todos los comentarios
-
   const fetchComment = useCallback(async () => {
     const postId = post.id;
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/comment/${postId}`
+        `/api/comment/${postId}`
       );
       setNewComment(response.data);
     } catch (error) {
@@ -75,68 +78,124 @@ const ListPost = ({ post }) => {
     fetchComment();
   }, [fetchComment]);
 
+  const handleDeletePost = async () => {
+    try {
+      await handleDelete(post.id); // Llama a la función de eliminación del padre
+      onClose(); // Cierra el modal solo si se elimina correctamente
+    } catch (error) {
+      console.error('Error al eliminar el post: ', error);
+    }
+  };
+
   return (
     <>
-      <HStack>
-        <Flex flexDir={'column'}>
-          <Box
-            p={4}
-            borderWidth='1px'
-            borderRadius='lg'
-          >
-            <Heading fontSize={'xl'}>{post.title}</Heading>
-            <Text>{post.content}</Text>
-          </Box>
-          {Array.isArray(newComment) && newComment.length > 0 ? (
-            newComment.map((comment) => (
-              <Box
-                key={comment.id}
-                p={4}
-                borderWidth='1px'
-                borderRadius='lg'
-                bg='gray.500'
-              >
-                <Text>{comment.text}</Text>
-              </Box>
-            ))
-          ) : (
-            <i>No hay comentarios aún.</i>
-          )}
+      {/* <HStack> */}
+      <Flex flexDir={'column'}>
+        <Box
+          p={4}
+          borderWidth='1px'
+          borderRadius='lg'
+          gap={4}
+        >
+          <Heading fontSize={'xl'}>{post.title}</Heading>
+          <Text>{post.content}</Text>
+        </Box>
+        {Array.isArray(newComment) && newComment.length > 0 ? (
+          newComment.map((comment) => (
+            <Box
+              key={comment.id}
+              p={4}
+              borderWidth='1px'
+              borderRadius='lg'
+              bg='yellow.500'
+            >
+              <i> {comment.user}</i>
+              <Text>{comment.text}</Text>
+            </Box>
+          ))
+        ) : (
+          <i>No hay comentarios aún.</i>
+        )}
 
-          <Box
-            p={4}
-            borderWidth='7px'
-            borderRadius='lg'
-            bg='gray.200'
-          >
-            <FormControl>
+        <Box
+          p={4}
+          borderWidth='7px'
+          borderRadius='lg'
+          bg='gray.200'
+          my={4}
+        >
+          <FormControl>
+            <Flex
+              flexDir={'column'}
+              justifyContent={'center'}
+              gap={4}
+            >
+              <Input
+                placeholder='Agregar comentario...'
+                value={comment}
+                type='text'
+                onChange={(e) => setComment(e.target.value)}
+                background={'gray.600'}
+                color={'white'}
+              />
               <Flex
-                flexDir={'column'}
+                flexDir={{ base: 'column', md: 'row' }}
                 justifyContent={'center'}
-                gap={5}
               >
-                <Input
-                  placeholder='Agregar comentario...'
-                  value={comment}
-                  type='text'
-                  onChange={(e) => setComment(e.target.value)}
-                  background={'gray.600'}
-                  color={'white'}
-                />
                 <Button
                   borderWidth='7px'
                   borderRadius='lg'
-                  bg='green.200'
+                  bg='green'
+                  color={'white'}
                   mb={5}
                   onClick={handleComment}
                 >
                   Enviar
                 </Button>
+                <Button
+                  borderWidth='7px'
+                  borderRadius='xl'
+                  bg='red'
+                  color={'white'}
+                  onClick={onOpen}
+                >
+                  Eliminar
+                </Button>
               </Flex>
-            </FormControl>
-          </Box>
-        </Flex>
-      </HStack>
+            </Flex>
+          </FormControl>
+        </Box>
+      </Flex>
+      {/* </HStack> */}
+      <Modal
+        onClose={onClose}
+        isOpen={isOpen}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Eliminar Post</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>¡Estas seguro de que quiere borrar el post !??</ModalBody>
+          <ModalFooter>
+            <Button
+              variant='solid'
+              colorScheme='red'
+              onClick={handleDeletePost}
+            >
+              Confirmar
+            </Button>
+            <Button
+              onClick={onClose}
+              ml={3}
+              variant='solid'
+              colorScheme='blue'
+            >
+              Cancelar
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

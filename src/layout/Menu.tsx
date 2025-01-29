@@ -25,11 +25,20 @@ import {
   ChevronRightIcon,
   
 } from '@chakra-ui/icons'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Outlet, Link as ReactRouterLink } from 'react-router-dom'
 
 export  function Menu() {
   const { isOpen, onToggle } = useDisclosure()
+
+  useEffect(() => {
+    // Buscar el título correspondiente a la ruta actual
+    const currentNavItem = NAV_ITEMS.find(item => item.href === location.pathname);
+    
+    // Si la ruta existe en NAV_ITEMS, usa su label; si no, usa un valor por defecto
+    document.title = currentNavItem ? currentNavItem.label : 'Mi Aplicación';
+  }, [location.pathname]); // Se ejecuta cada vez que cambia la ruta
+  const linkColor = useColorModeValue('gray.800', 'white')
 
   return (
     <>
