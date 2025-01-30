@@ -71,11 +71,14 @@ export const SignupCard = () => {
   const toast = useToast();
   const handleNewUser = async () => {
     try {
-      const { data } = await axios.post('/api/users', {
-        name,
-        email,
-        password,
-      });
+      const { data } = await axios.post(
+        `${import.meta.env.SERVIDOR_POST_API_BASE_URL}/api/users`,
+        {
+          name,
+          email,
+          password,
+        }
+      );
       console.log('creado! ', data);
       toast({
         position: 'top',

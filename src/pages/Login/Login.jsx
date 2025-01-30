@@ -77,7 +77,10 @@ export const SplitScreen=()=> {
         email,
         password,
       };
-      const response = await axios.post('/api/login', user);
+      const response = await axios.post(
+        `${import.meta.env.SERVIDOR_POST_API_BASE_URL}/api/login`,
+        user
+      );
       setAuth(response.data);
       setIsLoading(false);
 
