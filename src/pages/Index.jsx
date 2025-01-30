@@ -25,7 +25,9 @@ export const Index = () => {
   // Obtener todos los posts
   const fetchPosts = async () => {
     try {
-      const { data } = await axios.get('/api/post');
+      const { data } = await axios.get(
+        `${import.meta.env.SERVIDOR_POST_API_BASE_URL}/api/post`
+      );
       setPosts(data);
     } catch (error) {
       setError('Error al cargar los posts.');
@@ -39,9 +41,15 @@ export const Index = () => {
     try {
       const commentsByPost = {};
       const commentsRequests = posts.map((post) =>
-        axios.get(`/api/comment/${post.id}`).then((res) => {
-          commentsByPost[post.id] = Array.isArray(res.data) ? res.data : [];
-        })
+        axios
+          .get(
+            `${import.meta.env.SERVIDOR_COMMENT_API_BASE_URL}/api/comment/${
+              post.id
+            }`
+          )
+          .then((res) => {
+            commentsByPost[post.id] = Array.isArray(res.data) ? res.data : [];
+          })
       );
       await Promise.all(commentsRequests);
       setNewComment(commentsByPost);
@@ -66,7 +74,9 @@ export const Index = () => {
 
     try {
       const { data } = await axios.post(
-        `/api/comment/${postId}`,
+        `${
+          import.meta.env.SERVIDOR_COMMENT_API_BASE_URL
+        }/api/comment/${postId}`,
         newCommentData
       );
 
