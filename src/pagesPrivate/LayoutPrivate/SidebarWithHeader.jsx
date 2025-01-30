@@ -24,7 +24,7 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { FiHome, FiMenu, FiChevronDown } from 'react-icons/fi';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth.jsx';
 import axios from 'axios';
 import { useEffect } from 'react';
 // import { IoMdPersonAdd } from 'react-icons/io';
@@ -153,7 +153,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
   // cerrar sesion
   const handleLogout = async () => {
     try {
-      const response = await axios.get('/api/logout');
+      const response = await axios.get(
+        `${import.meta.env.SERVIDOR_POST_API_BASE_URL}/api/logout`
+      );
       navegate('/');
 
       toast({

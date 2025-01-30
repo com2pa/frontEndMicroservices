@@ -15,10 +15,10 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth.jsx';
 import { useNavigate } from 'react-router-dom';
-import Menu from '../../layout/Menu';
-import Footer from '../../layout/Footer';
+import Menu from '../../layout/Menu.tsx';
+import Footer from '../../layout/Footer.tsx';
 
 const REGEX_EMAIL =
   /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;

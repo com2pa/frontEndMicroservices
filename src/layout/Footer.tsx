@@ -10,10 +10,8 @@ import {
   useColorModeValue,
   VisuallyHidden,
 } from '@chakra-ui/react'
-import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
 import { ReactNode } from 'react'
 import React from 'react'
-import { Link as ReactRouterLink } from 'react-router-dom'
 const Logo = (props: any) => {
   return (
     <Heading color="red.600" shadow="dark-lg "p='1' rounded='sm'  bg='white'>BLOG</Heading>
