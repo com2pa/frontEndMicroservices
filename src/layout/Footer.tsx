@@ -16,7 +16,7 @@ import React from 'react'
 import { Link as ReactRouterLink } from 'react-router-dom'
 const Logo = (props: any) => {
   return (
-    <Heading color="red.600" shadow="dark-lg "p='1' rounded='sm'  bg='white'>NURSING AT HOME</Heading>
+    <Heading color="red.600" shadow="dark-lg "p='1' rounded='sm'  bg='white'>BLOG</Heading>
 
   )
 }
