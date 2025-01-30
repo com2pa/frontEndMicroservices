@@ -7,13 +7,13 @@ export default defineConfig({
   server: {
     proxy: {
       '/api/comment': {
-        target: 'http://localhost:5000',
+        target: 'https://microservicescomment.onrender.com',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api\/comment/, '/api/comment'),
       },
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'https://backendmicroservicespost.onrender.com',
         changeOrigin: true,
         secure: false,
       },

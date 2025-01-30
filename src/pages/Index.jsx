@@ -19,50 +19,62 @@ export const Index = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [commentInputs, setCommentInputs] = useState({}); // Para manejar comentarios por post
-  const [newComment, setNewComment] = useState([]);
-  
+  const [commentInputs, setCommentInputs] = useState({});
+  const [newComment, setNewComment] = useState({});
+
   // Obtener todos los posts
   const fetchPosts = async () => {
     try {
       const { data } = await axios.get('/api/post');
-      setPosts(data); // Actualizar el estado con los posts
+      setPosts(data);
     } catch (error) {
       setError('Error al cargar los posts.');
     } finally {
-      setIsLoading(false); // Finaliza la carga
+      setIsLoading(false);
     }
   };
 
-  // Manejar el cambio en el campo de comentario
+  // Obtener todos los comentarios en paralelo
+  const fetchCommentsForPosts = async () => {
+    try {
+      const commentsByPost = {};
+      const commentsRequests = posts.map((post) =>
+        axios.get(`/api/comment/${post.id}`).then((res) => {
+          commentsByPost[post.id] = Array.isArray(res.data) ? res.data : [];
+        })
+      );
+      await Promise.all(commentsRequests);
+      setNewComment(commentsByPost);
+    } catch (error) {
+      console.error('Error al obtener comentarios:', error);
+    }
+  };
+
+  // Manejo de cambio en input de comentario
   const handleCommentChange = (postId, value) => {
     setCommentInputs((prev) => ({ ...prev, [postId]: value }));
   };
 
-  // Manejar el envío de un comentario
+  // Enviar un comentario
   const handleCommentSubmit = async (postId) => {
-    const newComment = {
-      text: commentInputs[postId], // Comentario ingresado
-      postId: postId,
+    if (!commentInputs[postId]?.trim()) return;
+
+    const newCommentData = {
+      text: commentInputs[postId],
+      postId,
     };
 
     try {
-      const { data } = await axios.post(`/api/comment/${postId}`, newComment);
-
-      // Actualiza el estado local para incluir el nuevo comentario
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.id === postId
-            ? { ...post, comments: [...(post.comments || []), data] }
-            : post
-        )
+      const { data } = await axios.post(
+        `/api/comment/${postId}`,
+        newCommentData
       );
-      // Actualizar el estado de comentarios organizados por post
+
       setNewComment((prevComments) => ({
         ...prevComments,
-        [postId]: [...(prevComments[postId] || []), data], // Añadir al arreglo del post correspondiente
+        [postId]: [...(prevComments[postId] || []), data],
       }));
-      // Limpia el campo de comentario
+
       setCommentInputs((prev) => ({ ...prev, [postId]: '' }));
     } catch (error) {
       console.error('Error al enviar el comentario:', error);
@@ -73,25 +85,11 @@ export const Index = () => {
     fetchPosts();
   }, []);
 
-  // todos los comentarios
   useEffect(() => {
-    const fetchCommentsForPosts = async () => {
-      try {
-        const commentsByPost = {}; // Objeto para almacenar comentarios por post
-        for (const post of posts) {
-          const response = await axios.get(`/api/comment/${post.id}`); // Obtener comentarios del post específico
-          commentsByPost[post.id] = response.data; // Guardar en el objeto
-        }
-        setNewComment(commentsByPost); // Actualizar estado con comentarios organizados por post
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-      }
-    };
-
     if (posts.length > 0) {
-      fetchCommentsForPosts(); // Solo ejecuta cuando hay posts cargados
+      fetchCommentsForPosts();
     }
-  }, [posts]); // Se ejecuta cuando los posts cambian
+  }, [posts]);
 
   return (
     <SidebarWithHeader>
@@ -181,33 +179,34 @@ export const Index = () => {
                   mb={4}
                 >
                   <Heading size='sm'>Comentarios:</Heading>
-                  {newComment[post.id]?.length > 0 ? (
-                    newComment[post.id].map((comment, index) => (
-                      <Box
-                        key={index}
-                        p={3}
-                        bg='gray.100'
-                        borderRadius='md'
-                        w='full'
+                  {Array.isArray(newComment[post.id]) &&
+                  newComment[post.id].length > 0 ? (
+                      newComment[post.id].map((comment, index) => (
+                        <Box
+                          key={index}
+                          p={3}
+                          bg='gray.100'
+                          borderRadius='md'
+                          w='full'
+                        >
+                          <HStack>
+                            <Avatar
+                              name={comment.user}
+                              size='sm'
+                            />
+                            <Text fontWeight='bold'>{comment.user}</Text>
+                          </HStack>
+                          <Text fontSize='sm'>{comment.text}</Text>
+                        </Box>
+                      ))
+                    ) : (
+                      <Text
+                        fontSize='sm'
+                        color='gray.500'
                       >
-                        <HStack>
-                          <Avatar
-                            name={comment.user}
-                            size='sm'
-                          />
-                          <Text fontWeight='bold'>{comment.user}</Text>
-                        </HStack>
-                        <Text fontSize='sm'>{comment.text}</Text>
-                      </Box>
-                    ))
-                  ) : (
-                    <Text
-                      fontSize='sm'
-                      color='gray.500'
-                    >
                       No hay comentarios aún.
-                    </Text>
-                  )}
+                      </Text>
+                    )}
                 </VStack>
 
                 {/* Formulario para añadir un comentario */}
