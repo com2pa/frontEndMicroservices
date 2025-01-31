@@ -12,7 +12,7 @@ import {
   Button,
   Textarea,
 } from '@chakra-ui/react';
-import SidebarWithHeader from '../pagesPrivate/LayoutPrivate/SidebarWithHeader.jsx';
+import SidebarWithHeader from '../pagesPrivate/LayoutPrivate/SidebarWithHeader';
 import axios from 'axios';
 
 export const Index = () => {

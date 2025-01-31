@@ -4,8 +4,7 @@ import {
   Box,
   Flex,
   Text,
-  IconButton,
-  Button,
+  IconButton,  
   Stack,
   Collapse,
   Icon,
@@ -13,7 +12,6 @@ import {
   PopoverTrigger,
   PopoverContent,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
   Heading,
 } from '@chakra-ui/react';
@@ -23,8 +21,9 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from '@chakra-ui/icons';
-import React, { useEffect } from 'react';
-import { Outlet, Link as ReactRouterLink } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
+// import { Link as ReactRouterLink } from 'react-router-dom';
 
 export function Menu() {
   const { isOpen, onToggle } = useDisclosure();

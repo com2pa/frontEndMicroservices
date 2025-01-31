@@ -24,27 +24,15 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { FiHome, FiMenu, FiChevronDown } from 'react-icons/fi';
-import { useAuth } from '../../hooks/useAuth.jsx';
+import { useAuth } from '../../hooks/useAuth';
 import axios from 'axios';
 import { useEffect } from 'react';
-// import { IoMdPersonAdd } from 'react-icons/io';
-// import { LuBookMinus, LuSchool } from 'react-icons/lu';
-// import { GiSpellBook, GiTeacher } from 'react-icons/gi';
-// import { PiStudentFill } from 'react-icons/pi';
-// import { FcFinePrint } from 'react-icons/fc';
 
 // menu lateral
 const LinkItems = [
   { name: 'Home', icon: FiHome, to: '/dashboard' },
   { name: 'Post', to: '/post' },
-  // { name: 'Asignaturas', icon: LuBookMinus, to:'/asignaturas' },
-  // { name: 'Maestro', icon: GiTeacher, to:'/teacher'},
-  // { name: 'Inscripcion',icon: IoMdPersonAdd  , to:'/StudentRegistration' },
-  // // asignaciones(forma de cronograma de actividades)
-  // { name: 'Asignaciones',icon:GiSpellBook ,to:'/assignments'},
-  // { name: 'alumnos',icon:PiStudentFill,to:'/seeStudents'},
-  // { name: 'Expediente'},
-  // { name: 'Notas',icon:FcFinePrint ,to:'/note'},
+  
 ];
 
 const SidebarContent = ({ onClose, ...rest }) => {
