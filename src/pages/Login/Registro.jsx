@@ -21,8 +21,8 @@ import {
 import { useEffect, useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
-import Menu from '../../layout/Menu';
-import Footer from '../../layout/Footer';
+import Menu from '@/layout/Menu';
+import Footer from '@/layout/Footer';
 import { useNavigate } from 'react-router-dom';
 
 const REGEX_EMAIL =
@@ -72,7 +72,7 @@ export const SignupCard = () => {
   const handleNewUser = async () => {
     try {
       const { data } = await axios.post(
-        `${import.meta.env.SERVIDOR_POST_API_BASE_URL}/api/users`,
+        `${import.meta.env.VITE_SERVIDOR_POST_API_BASE_URL}/api/users`,
         {
           name,
           email,

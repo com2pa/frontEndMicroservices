@@ -1,5 +1,9 @@
 'use client';
-import { Link as ReactRouterLink, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Link as ReactRouterLink,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import {
   IconButton,
   Avatar,
@@ -24,7 +28,7 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { FiHome, FiMenu, FiChevronDown } from 'react-icons/fi';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 import axios from 'axios';
 import { useEffect } from 'react';
 
@@ -32,21 +36,19 @@ import { useEffect } from 'react';
 const LinkItems = [
   { name: 'Home', icon: FiHome, to: '/dashboard' },
   { name: 'Post', to: '/post' },
-  
 ];
 
 const SidebarContent = ({ onClose, ...rest }) => {
   const location = useLocation();
+ 
   useEffect(() => {
-    // 🔹 Buscar el título correspondiente a la ruta actual
-    const currentNavItem = LinkItems.find(
-      (item) => item.to === location.pathname
-    );
-
-    // 🔹 Si la ruta existe en LinkItems, usa su name; si no, usa un valor por defecto
-    document.title = currentNavItem ? currentNavItem.name : 'Mi Aplicación';
-  }, [location.pathname]); // Se ejecuta cada vez que cambia la ruta
-  
+    if (location && location.pathname) {
+      const currentNavItem = LinkItems.find(
+        (item) => item.href === location.pathname
+      );
+      document.title = currentNavItem ? currentNavItem.label : 'Mi Aplicación';
+    }
+  }, [location?.pathname]);
 
   return (
     <Box

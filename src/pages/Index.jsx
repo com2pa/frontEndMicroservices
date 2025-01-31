@@ -12,7 +12,7 @@ import {
   Button,
   Textarea,
 } from '@chakra-ui/react';
-import SidebarWithHeader from '../pagesPrivate/LayoutPrivate/SidebarWithHeader';
+import SidebarWithHeader from '@/pagesPrivate/LayoutPrivate/SidebarWithHeader';
 import axios from 'axios';
 
 export const Index = () => {
@@ -26,7 +26,7 @@ export const Index = () => {
   const fetchPosts = async () => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.SERVIDOR_POST_API_BASE_URL}/api/post`
+        `${import.meta.env.VITE_SERVIDOR_POST_API_BASE_URL}/api/post`
       );
       setPosts(data);
     } catch (error) {
@@ -43,9 +43,9 @@ export const Index = () => {
       const commentsRequests = posts.map((post) =>
         axios
           .get(
-            `${import.meta.env.SERVIDOR_COMMENT_API_BASE_URL}/api/comment/${
-              post.id
-            }`
+            `${
+              import.meta.env.VITE_SERVIDOR_COMMENT_API_BASE_URL
+            }/api/comment/${post.id}`
           )
           .then((res) => {
             commentsByPost[post.id] = Array.isArray(res.data) ? res.data : [];
@@ -75,7 +75,7 @@ export const Index = () => {
     try {
       const { data } = await axios.post(
         `${
-          import.meta.env.SERVIDOR_COMMENT_API_BASE_URL
+          import.meta.env.VITE_SERVIDOR_COMMENT_API_BASE_URL
         }/api/comment/${postId}`,
         newCommentData
       );

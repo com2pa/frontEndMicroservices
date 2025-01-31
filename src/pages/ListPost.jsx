@@ -33,7 +33,7 @@ const ListPost = ({ post, handleDelete }) => {
     try {
       const response = await axios.post(
         `${
-          import.meta.env.SERVIDOR_COMMENT_API_BASE_URL
+          import.meta.env.VITE_SERVIDOR_COMMENT_API_BASE_URL
         }/api/comment/${postId}`,
         { text }
       );
@@ -68,7 +68,9 @@ const ListPost = ({ post, handleDelete }) => {
     const postId = post.id;
     try {
       const response = await axios.get(
-        `${import.meta.env.SERVIDOR_COMMENT_API_BASE_URL}/api/comment/${postId}`
+        `${
+          import.meta.env.VITE_SERVIDOR_COMMENT_API_BASE_URL
+        }/api/comment/${postId}`
       );
       setNewComment(response.data);
     } catch (error) {

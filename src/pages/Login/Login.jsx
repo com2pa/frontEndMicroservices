@@ -15,10 +15,10 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import Menu from '../../layout/Menu';
-import Footer from '../../layout/Footer';
+import Menu from '@/layout/Menu';
+import Footer from '@/layout/Footer';
 
 const REGEX_EMAIL =
   /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
@@ -77,7 +77,7 @@ export const SplitScreen = () => {
         password,
       };
       const response = await axios.post(
-        `${import.meta.env.SERVIDOR_POST_API_BASE_URL}/api/login`,
+        `${import.meta.env.VITE_SERVIDOR_POST_API_BASE_URL}/api/login`,
         user
       );
       setAuth(response.data);
@@ -102,9 +102,7 @@ export const SplitScreen = () => {
           isClosable: true,
         });
       }
-
       navegate('/dashboard');
-      //window.location.pathname =`/Servicio/`
     } catch (error) {
       setIsLoading(false);
       console.log(error);
