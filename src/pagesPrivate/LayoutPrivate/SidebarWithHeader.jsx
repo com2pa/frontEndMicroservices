@@ -28,7 +28,7 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { FiHome, FiMenu, FiChevronDown } from 'react-icons/fi';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 import axios from 'axios';
 import { useEffect } from 'react';
 
