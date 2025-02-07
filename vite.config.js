@@ -8,6 +8,8 @@ export default defineConfig({
   plugins: [react()],
   build: {
     sourcemap: false, // Desactiva los source maps en producción
+    minify: false, 
+    
   },
   server: {
     proxy: {
