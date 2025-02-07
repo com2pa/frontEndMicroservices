@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import Menu from '../../layout/Menu';
 import Footer from '../../layout/Footer';
@@ -124,7 +124,7 @@ export const SplitScreen = () => {
         maxW='90rem'
         mx='auto'
       >
-        <Menu />
+        <Menu/>
         <Stack
           minH={'60vh'}
           direction={{ base: 'column', md: 'row' }}
