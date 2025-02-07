@@ -34,7 +34,7 @@ const Post = () => {
   const fetchUserId = async () => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_SERVIDOR_POST_API_BASE_URL}/api/users`
+        `${import.meta.env.VITE_API_POST}/api/users`
       );
       setUserId(data.id);
       // console.log('user id',data[0].id);
@@ -51,7 +51,7 @@ const Post = () => {
     // console.log(title,content,userId)
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_SERVIDOR_POST_API_BASE_URL}/api/post`,
+        `${import.meta.env.VITE_API_POST}/api/post`,
         {
           title,
           content,
@@ -87,7 +87,7 @@ const Post = () => {
   const fetchPosts = async () => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_SERVIDOR_POST_API_BASE_URL}/api/post`
+        `${import.meta.env.VITE_API_POST}/api/post`
       );
       // Filtrar los posts que pertenezcan al usuario autenticado
       const filteredPosts = data.filter((post) => post.user.id === auth.id);
@@ -108,7 +108,7 @@ const Post = () => {
   const handleDelete = async (id) => {
     try {
       const data = await axios.delete(
-        `${import.meta.env.VITE_SERVIDOR_POST_API_BASE_URL}/api/post/${id}`
+        `${import.meta.env.VITE_API_POST}/api/post/${id}`
       );
       //   console.log(data);
       setPost((data) => data.filter((post) => post.id !== id));

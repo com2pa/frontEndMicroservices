@@ -26,7 +26,7 @@ export const Index = () => {
   const fetchPosts = async () => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_SERVIDOR_POST_API_BASE_URL}/api/post`
+        `${import.meta.env.VITE_API_POST}/api/post`
       );
       setPosts(data);
     } catch (error) {
@@ -44,7 +44,7 @@ export const Index = () => {
         axios
           .get(
             `${
-              import.meta.env.VITE_SERVIDOR_COMMENT_API_BASE_URL
+              import.meta.env.VITE_API_COMMENT
             }/api/comment/${post.id}`
           )
           .then((res) => {
@@ -75,7 +75,7 @@ export const Index = () => {
     try {
       const { data } = await axios.post(
         `${
-          import.meta.env.VITE_SERVIDOR_COMMENT_API_BASE_URL
+          import.meta.env.VITE_API_COMMENT
         }/api/comment/${postId}`,
         newCommentData
       );

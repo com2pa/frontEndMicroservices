@@ -72,7 +72,7 @@ export const SignupCard = () => {
   const handleNewUser = async () => {
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_SERVIDOR_POST_API_BASE_URL}/api/users`,
+        `${import.meta.env.VITE_API_POST}/api/users`,
         {
           name,
           email,

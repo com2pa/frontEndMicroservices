@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Card, Center, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
+import {Center} from '@chakra-ui/react';
 import { BoxesLoader } from 'react-awesome-loaders-py3';
 
 const PersistAuth = () => {
@@ -15,7 +15,9 @@ const PersistAuth = () => {
   useEffect(() => {
     const handleUser = async () => {
       try {
-        const { data } = await axios.get('/api/refres');
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_API_POST}/api/refres`
+        );
         setAuth(data);
         // console.log(data.name);
         // console.log(data.id)
@@ -30,22 +32,12 @@ const PersistAuth = () => {
   }, [setAuth]);
 
   //CUANDO CARGARDO EL USUARIO
-  if (isLoading) {
-    // return <Center margin="5rem" flexDirection="column"> <Card padding="2rem 5rem" background="gray.500" > <Heading> Cargando</Heading><Flex justify="center" mt="1rem"><Text> Aguarde unos  Minutos !</Text><Spinner size='md' color="red.600"/></Flex> </Card></Center>;
+  if (isLoading) {    
     return (
       <Center
         margin='5rem'
         flexDirection='column'
-      >
-        {/* <BookLoader
-          text="Aguarde unos minutos.."
-          background={"linear-gradient(135deg, #6066FA, yellow)"}
-          desktopSize={"100px"}
-          mobileSize={"80px"}
-          textColor={"yellow"}
-          // size="64px"
-        
-        /> */}
+      >     
         <BoxesLoader
           boxColor={'#6366F1'}
           style={{ marginBottom: '20px' }}
