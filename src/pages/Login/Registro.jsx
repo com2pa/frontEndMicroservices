@@ -21,8 +21,8 @@ import {
 import { useEffect, useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
-import Menu from '../layout/Menu';
-import Footer from '../layout/Footer';
+import Menu from '../../layout/Menu';
+import Footer from '../../layout/Footer';
 import { useNavigate } from 'react-router-dom';
 
 const REGEX_EMAIL =
