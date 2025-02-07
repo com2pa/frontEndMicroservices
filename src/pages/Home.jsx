@@ -1,7 +1,7 @@
 import { Card, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
-import Menu from '@/layout/Menu';
-import Footer from '@/layout/Footer';
+import Menu from '../layout/Menu';
+import Footer from '../layout/Footer';
 
 export const Home = () => {
   return (

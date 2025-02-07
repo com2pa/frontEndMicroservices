@@ -174,9 +174,9 @@ const MobileNavItem = ({ label, href }) => {
 };
 
 const NAV_ITEMS = [
-  { label: 'Inicio', href: '/' },
-  { label: 'Sesion', href: '/login' },
-  { label: 'Registrate', href: '/registro' },
+  { label: 'Inicio', href: '/#/' },
+  { label: 'Sesion', href: '/#/login' },
+  { label: 'Registrate', href: '/#/registro' },
 ];
 
 export default Menu;

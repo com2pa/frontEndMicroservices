@@ -1,16 +1,13 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __dirname = path.dirname(fileURLToPath(import.meta.url)); // Define __dirname correctamente
 
 export default defineConfig({
   plugins: [react()],
   build: {
-    sourcemap: false, // Desactiva los source maps en producción
-    minify: false, 
-    
+    chunkSizeWarningLimit: 1000,
+    outDir: 'dist',
   },
+  base: '/',
   server: {
     proxy: {
       '/api/comment': {
@@ -26,9 +23,5 @@ export default defineConfig({
       },
     },
   },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
-    },
-  },
+  
 });

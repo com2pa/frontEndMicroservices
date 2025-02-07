@@ -1,23 +1,20 @@
 
-import { BrowserRouter, Route, Routes, } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 // import axios from 'axios';
 import Public from '../router/Public';
 import PrivateRoute from '../router/PrivateRoute';
-import { useAuth } from '../hooks/useAuth';
-// import PersistAuth from '../components/PersistAuth';
-
-
+// import { useAuth } from '../hooks/useAuth';
 
 
 export const Root = () => {
-  const { isAuthenticated } = useAuth();
+  // const { isAuthenticated } = useAuth();
   return (
 
 
-    <BrowserRouter>  
+    <Router>  
       <PrivateRoute />
       <Public />
-    </BrowserRouter>
+    </Router>
 
 
   );

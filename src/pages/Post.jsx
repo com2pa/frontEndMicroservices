@@ -11,11 +11,11 @@ import {
   Textarea,
   useToast,
 } from '@chakra-ui/react';
-import SidebarWithHeader from '@/pagesPrivate/LayoutPrivate/SidebarWithHeader';
+import SidebarWithHeader from '../pagesPrivate/LayoutPrivate/SidebarWithHeader';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import ListPost from './ListPost';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '../hooks/useAuth';
 const Post = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');

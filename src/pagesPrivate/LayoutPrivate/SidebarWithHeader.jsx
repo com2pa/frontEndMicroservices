@@ -34,8 +34,8 @@ import { useEffect } from 'react';
 
 // menu lateral
 const LinkItems = [
-  { name: 'Home', icon: FiHome, to: '/dashboard' },
-  { name: 'Post', to: '/post' },
+  { name: 'Home', icon: FiHome, to: '/#/dashboard' },
+  { name: 'Post', to: '/#/post' },
 ];
 
 const SidebarContent = ({ onClose, ...rest }) => {
@@ -144,7 +144,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const handleLogout = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.SERVIDOR_POST_API_BASE_URL}/api/logout`
+        `${import.meta.env.VITE_API_POST}/api/logout`
       );
       navegate('/');
 

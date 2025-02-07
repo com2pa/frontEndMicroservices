@@ -14,13 +14,10 @@ export const Root = () => {
       <Routes>
         <Route element={<PersistAuth />}>
           <Route path='/' element={<Home />} />   
-        </Route> 
-        {/* <Route path='/login' element={<LoginForm />} /> */}
+        </Route>
         <Route path='/login' element={<Login/>} />
         <Route path='/verify/:id/:token' element={<Verify />} />
         <Route path='/registro' element={<Registro/>}/>
-        {/* <Route path='/somos' element={<QuienesSomos/>} /> */}
-              
       </Routes>
 
     </>
