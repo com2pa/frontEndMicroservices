@@ -40,7 +40,7 @@ const LinkItems = [
 
 const SidebarContent = ({ onClose, ...rest }) => {
   const location = useLocation();
- 
+
   useEffect(() => {
     if (location && location.pathname) {
       const currentNavItem = LinkItems.find(
@@ -144,8 +144,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const handleLogout = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_POST}/api/logout`
+        `${import.meta.env.VITE_API_USER}/api/logout`
       );
+      // const response = await axios.get(`/api/logout`);
       navegate('/');
 
       toast({
