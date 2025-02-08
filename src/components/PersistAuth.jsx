@@ -1,84 +1,77 @@
-// Mantener sesion persistida
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import {Center} from '@chakra-ui/react';
+import { Center } from '@chakra-ui/react';
 import { BoxesLoader } from 'react-awesome-loaders-py3';
 
 const PersistAuth = () => {
   const location = useLocation();
   const { auth, setAuth } = useAuth();
-  const [isLoading, setIsLoading] = useState(auth.name ? false : true);
-  // console.log('inicio sesion',auth.name)
-  // Obtener el usuario cada vez que cambia la url o se refresca la pagina para mantener la sesion persistida
+  const [isLoading, setIsLoading] = useState(!auth.name); // Solo cargar si no hay auth
+
   useEffect(() => {
     const handleUser = async () => {
       try {
         const { data } = await axios.get(
           `${import.meta.env.VITE_API_USER}/api/refres`,
-          {
-            withCredentials: true, // Habilita el envío de cookies
-          }
-        );        
+          { withCredentials: true } // Enviar cookies con la solicitud
+        );
         setAuth(data);
-        // console.log(data.name);
-        // console.log(data.id)
-        setIsLoading(false);
       } catch (error) {
-        console.log(error);
+        console.error(
+          'Error al obtener usuario:',
+          error.response?.data || error.message
+        );
+        setAuth({}); // Limpiar auth si hay error
+      } finally {
         setIsLoading(false);
-        setAuth({});
       }
     };
-    handleUser();
-  }, [setAuth]);
 
-  //CUANDO CARGARDO EL USUARIO
-  if (isLoading) {    
+    if (!auth.name) {
+      handleUser();
+    }
+  }, [auth.name, setAuth]);
+
+  // 🌀 Loader mientras obtenemos la sesión
+  if (isLoading) {
     return (
       <Center
         margin='5rem'
         flexDirection='column'
-      >     
+      >
         <BoxesLoader
-          boxColor={'#6366F1'}
+          boxColor='#6366F1'
           style={{ marginBottom: '20px' }}
-          desktopSize={'128px'}
-          mobileSize={'80px'}
+          desktopSize='128px'
+          mobileSize='80px'
           text='Aguarde unos minutos..'
         />
       </Center>
     );
   }
 
-  //cuando estdoy en home
+  // 🔄 Redirigir según el estado de autenticación
   if (location.pathname === '/') {
-    if (auth?.name) {
-      return (
-        <Navigate
-          to='/dashboard'
-          state={{ from: location }}
-          replace
-        />
-      );
-    } else {
-      return <Outlet />;
-    }
-  }
-
-  //cuando estoy en cualquier ruta privada
-  if (auth?.name) {
-    return <Outlet />;
-  } else {
-    return (
+    return auth?.name ? (
       <Navigate
-        to='/'
-        state={{ from: location }}
+        to='/dashboard'
         replace
       />
+    ) : (
+      <Outlet />
     );
   }
+
+  return auth?.name ? (
+    <Outlet />
+  ) : (
+    <Navigate
+      to='/'
+      replace
+    />
+  );
 };
 
 export default PersistAuth;
