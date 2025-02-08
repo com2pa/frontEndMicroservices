@@ -16,8 +16,11 @@ const PersistAuth = () => {
     const handleUser = async () => {
       try {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_API_POST}/api/refres`
-        );
+          `${import.meta.env.VITE_API_USER}/api/refres`,
+          {
+            withCredentials: true, // Habilita el envío de cookies
+          }
+        );        
         setAuth(data);
         // console.log(data.name);
         // console.log(data.id)
