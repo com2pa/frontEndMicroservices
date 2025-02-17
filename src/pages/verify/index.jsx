@@ -12,11 +12,14 @@ export const Verify = () => {
       try {
         // Extraer ID y Token correctamente con HashRouter
         const pathParts = window.location.hash.split('/');
+        console.log(pathParts);
         const id = pathParts[2];
+        console.log(id);
         const token = pathParts[3];
+        console.log(token);
 
         await axios.patch(
-          `import.meta.env.VITE_API_USER}/api/users/${id}/${token}`            
+          `import.meta.env.VITE_API_USER}/api/users/${id}/${token}`
         );
 
         // await axios.patch(
