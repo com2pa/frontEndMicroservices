@@ -11,18 +11,18 @@ export default defineConfig({
   server: {
     proxy: {
       '/api/comment': {
-        target: 'http://localhost:5000',
+        target: 'http://localhost:3003',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api\/comment/, '/api/comment'),
       },
-      '/api': {
-        target: 'http://localhost:4000',
-        changeOrigin: true,
-        secure: false,
-      },
       '/api/post': {
         target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,        
+      },
+      '/api': {
+        target: 'http://localhost:4000',
         changeOrigin: true,
         secure: false,
       },
