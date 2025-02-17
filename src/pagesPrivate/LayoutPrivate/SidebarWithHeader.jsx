@@ -144,10 +144,10 @@ const MobileNav = ({ onOpen, ...rest }) => {
   // cerrar sesion
   const handleLogout = async () => {
     try {
-      // const response = await axios.get(
-      //   `${import.meta.env.VITE_API_USER}/api/logout`
-      // );
-      const response = await axios.get(`/api/logout`);
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_USER}/api/logout`
+      );
+      // const response = await axios.get(`/api/logout`);
       navegate('/');
 
       toast({

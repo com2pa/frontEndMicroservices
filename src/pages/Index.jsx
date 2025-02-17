@@ -22,7 +22,11 @@ export const Index = () => {
   // Obtener todos los posts
   const fetchPosts = async () => {
     try {
-      const { data } = await axios.get('/api/post');
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_POST}/api/post`
+      );
+
+      // const { data } = await axios.get('/api/post');
       // console.log('Datos recibidos en el frontend:', data);
       setPosts(data);
     } catch (error) {
@@ -67,16 +71,14 @@ export const Index = () => {
     };
 
     try {
-      // const { data } = await axios.post(
-      //   `${
-      //     import.meta.env.VITE_API_COMMENT
-      //   }/api/comment/${postId}`,
-      //   newCommentData
-      // );
       const { data } = await axios.post(
-        `/api/comment/${postId}`,
+        `${import.meta.env.VITE_API_COMMENT}/api/comment/${postId}`,
         newCommentData
       );
+      // const { data } = await axios.post(
+      //   `/api/comment/${postId}`,
+      //   newCommentData
+      // );
       setNewComment((prevComments) => ({
         ...prevComments,
         [postId]: [...(prevComments[postId] || []), data],

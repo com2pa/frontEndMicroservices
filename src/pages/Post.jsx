@@ -33,10 +33,10 @@ const Post = () => {
   // obtener el id de usuario quien inicio sesion
   const fetchUserId = async () => {
     try {
-      // const { data } = await axios.get(
-      //   `${import.meta.env.VITE_API_POST}/api/users`
-      // );
-      const { data } = await axios.get(`/api/users`);
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_POST}/api/users`
+      );
+      // const { data } = await axios.get(`/api/users`);
       setUserId(data.id);
       // console.log('user id',data[0].id);
     } catch (error) {
@@ -51,19 +51,19 @@ const Post = () => {
 
     // console.log(title,content,userId)
     try {
-      // const response = await axios.post(
-      //   `${import.meta.env.VITE_API_POST}/api/post`,
-      //   {
-      //     title,
-      //     content,
-      //     userId,
-      //   }
-      // );
-      const response = await axios.post(`/api/post`, {
-        title,
-        content,
-        userId,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_POST}/api/post`,
+        {
+          title,
+          content,
+          userId,
+        }
+      );
+      // const response = await axios.post(`/api/post`, {
+      //   title,
+      //   content,
+      //   userId,
+      // });
       // console.log('post creado...',response);
 
       toast({
@@ -92,10 +92,10 @@ const Post = () => {
   // obtener todo los post
   const fetchPosts = async () => {
     try {
-      // const { data } = await axios.get(
-      //   `${import.meta.env.VITE_API_POST}/api/post`
-      // );
-      const { data } = await axios.get(`/api/post`);
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_POST}/api/post`
+      );
+      // const { data } = await axios.get(`/api/post`);
       // Filtrar los posts que pertenezcan al usuario autenticado
       const filteredPosts = data.filter((post) => post.user.id === auth.id);
       setPost(filteredPosts); // Actualizar el estado con los posts filtrados
@@ -113,10 +113,10 @@ const Post = () => {
   // eliminar
   const handleDelete = async (id) => {
     try {
-      // const data = await axios.delete(
-      //   `${import.meta.env.VITE_API_POST}/api/post/${id}`
-      // );
-      const data = await axios.delete(`/api/post/${id}`);
+      const data = await axios.delete(
+        `${import.meta.env.VITE_API_POST}/api/post/${id}`
+      );
+      // const data = await axios.delete(`/api/post/${id}`);
       //   console.log(data);
       setPost((data) => data.filter((post) => post.id !== id));
 

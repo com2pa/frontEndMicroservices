@@ -13,14 +13,14 @@ const PersistAuth = () => {
   useEffect(() => {
     const handleUser = async () => {
       try {
-        // const { data } = await axios.get(
-        //   `${import.meta.env.VITE_API_USER}/api/refres`,
-        //   { withCredentials: true } // Enviar cookies con la solicitud
-        // );
         const { data } = await axios.get(
-          `/api/refres`
-          // { withCredentials: true } // Enviar cookies con la solicitud
+          `${import.meta.env.VITE_API_USER}/api/refres`,
+          { withCredentials: true } // Enviar cookies con la solicitud
         );
+        // const { data } = await axios.get(
+        //   `/api/refres`
+        //   // { withCredentials: true } // Enviar cookies con la solicitud
+        // );
 
         setAuth(data);
       } catch (error) {

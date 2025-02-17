@@ -16,10 +16,14 @@ export const Verify = () => {
         const token = pathParts[3];
 
         await axios.patch(
-          `/api/users/${id}/${token}`,
-          {},
-          { withCredentials: true }
+          `import.meta.env.VITE_API_USER}/api/users/${id}/${token}`            
         );
+
+        // await axios.patch(
+        //   `/api/users/${id}/${token}`,
+        //   {},
+        //   { withCredentials: true }
+        // );
 
         // Redirigir correctamente con react-router
         navigate('/login');
