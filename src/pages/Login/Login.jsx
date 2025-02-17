@@ -78,7 +78,7 @@ export const SplitScreen = () => {
       };
       const response = await axios.post(
         `${import.meta.env.VITE_API_USER}/api/login`,
-        user
+        user, {withCredentials: true }
       );
       // const response = await axios.post(`/api/login`,user);
       setAuth(response.data);
