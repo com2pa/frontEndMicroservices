@@ -1,9 +1,9 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import  useAuth  from '../hooks/useAuth';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Center } from '@chakra-ui/react';
-import { BoxesLoader } from 'react-awesome-loaders-py3';
+import { Center, Spinner } from '@chakra-ui/react';
+
 
 const PersistAuth = () => {
   const location = useLocation();
@@ -13,10 +13,15 @@ const PersistAuth = () => {
   useEffect(() => {
     const handleUser = async () => {
       try {
+        // const { data } = await axios.get(
+        //   `${import.meta.env.VITE_API_USER}/api/refres`,
+        //   { withCredentials: true } // Enviar cookies con la solicitud
+        // );
         const { data } = await axios.get(
-          `${import.meta.env.VITE_API_USER}/api/refres`,
-          { withCredentials: true } // Enviar cookies con la solicitud
+          `/api/refres`
+          // { withCredentials: true } // Enviar cookies con la solicitud
         );
+
         setAuth(data);
       } catch (error) {
         console.error(
@@ -41,12 +46,12 @@ const PersistAuth = () => {
         margin='5rem'
         flexDirection='column'
       >
-        <BoxesLoader
-          boxColor='#6366F1'
-          style={{ marginBottom: '20px' }}
-          desktopSize='128px'
-          mobileSize='80px'
-          text='Aguarde unos minutos..'
+        <Spinner
+          thickness='4px'
+          speed='0.65s'
+          emptyColor='gray.200'
+          color='blue.500'
+          size='xl'
         />
       </Center>
     );
@@ -64,14 +69,18 @@ const PersistAuth = () => {
     );
   }
 
-  return auth?.name ? (
-    <Outlet />
-  ) : (
-    <Navigate
-      to='/'
-      replace
-    />
-  );
+  // Si no estamos autenticados, redirigimos al inicio
+  if (!auth?.name) {
+    return (
+      <Navigate
+        to='/'
+        replace
+      />
+    );
+  }
+
+  // Si estamos autenticados, dejamos pasar a las rutas hijas
+  return <Outlet />;
 };
 
 export default PersistAuth;
