@@ -93,7 +93,8 @@ const Post = () => {
   const fetchPosts = async () => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_API_POST}/api/post`
+        `${import.meta.env.VITE_API_POST}/api/post`,
+        { withCredentials: true }
       );
       // const { data } = await axios.get(`/api/post`);
       // Filtrar los posts que pertenezcan al usuario autenticado
@@ -114,7 +115,10 @@ const Post = () => {
   const handleDelete = async (id) => {
     try {
       const data = await axios.delete(
-        `${import.meta.env.VITE_API_POST}/api/post/${id}`
+        `${import.meta.env.VITE_API_POST}/api/post/${id}`,
+        {
+          withCredentials: true,
+        }
       );
       // const data = await axios.delete(`/api/post/${id}`);
       //   console.log(data);
