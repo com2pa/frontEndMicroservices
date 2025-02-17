@@ -1,43 +1,34 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import  useAuth  from '../hooks/useAuth';
+import useAuth from '../hooks/useAuth';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Center, Spinner } from '@chakra-ui/react';
 
-
 const PersistAuth = () => {
   const location = useLocation();
   const { auth, setAuth } = useAuth();
-  const [isLoading, setIsLoading] = useState(!auth.name); // Solo cargar si no hay auth
+  const [isLoading, setIsLoading] = useState(auth.name ? false : true); // Solo cargar si no hay auth
 
   useEffect(() => {
     const handleUser = async () => {
       try {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_API_USER}/api/refres`,
-          { withCredentials: true } // Enviar cookies con la solicitud
+          `${import.meta.env.VITE_API_USER}/api/refres`
         );
         // const { data } = await axios.get(
         //   `/api/refres`
-        //   // { withCredentials: true } // Enviar cookies con la solicitud
         // );
 
         setAuth(data);
+        setIsLoading(false);
       } catch (error) {
-        console.error(
-          'Error al obtener usuario:',
-          error.response?.data || error.message
-        );
+        console.error(error);
         setAuth({}); // Limpiar auth si hay error
-      } finally {
         setIsLoading(false);
       }
     };
-
-    if (!auth.name) {
-      handleUser();
-    }
-  }, [auth.name, setAuth]);
+    handleUser();
+  }, [setAuth]);
 
   // 🌀 Loader mientras obtenemos la sesión
   if (isLoading) {
@@ -57,30 +48,33 @@ const PersistAuth = () => {
     );
   }
 
-  // 🔄 Redirigir según el estado de autenticación
+  //cuando estdoy en home
   if (location.pathname === '/') {
-    return auth?.name ? (
-      <Navigate
-        to='/dashboard'
-        replace
-      />
-    ) : (
-      <Outlet />
-    );
+    if (auth?.name) {
+      return (
+        <Navigate
+          to='/dashboard'
+          state={{ from: location }}
+          replace
+        />
+      );
+    } else {
+      return <Outlet />;
+    }
   }
 
-  // Si no estamos autenticados, redirigimos al inicio
-  if (!auth?.name) {
+  //cuando estoy en cualquier ruta privada
+  if (auth?.name) {
+    return <Outlet />;
+  } else {
     return (
       <Navigate
         to='/'
+        state={{ from: location }}
         replace
       />
     );
   }
-
-  // Si estamos autenticados, dejamos pasar a las rutas hijas
-  return <Outlet />;
 };
 
 export default PersistAuth;
