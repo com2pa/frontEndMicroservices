@@ -5,9 +5,6 @@ import {
   Text,
   VStack,
   HStack,
-  Spinner,
-  Alert,
-  AlertIcon,
   Avatar,
   Button,
   Textarea,
@@ -25,11 +22,11 @@ export const Index = () => {
   // Obtener todos los posts
   const fetchPosts = async () => {
     try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_POST}/api/post`
-      );
+      const { data } = await axios.get('/api/post');
+      // console.log('Datos recibidos en el frontend:', data);
       setPosts(data);
     } catch (error) {
+      console.error('Error al cargar los posts:', error);
       setError('Error al cargar los posts.');
     } finally {
       setIsLoading(false);
@@ -42,11 +39,8 @@ export const Index = () => {
       const commentsByPost = {};
       const commentsRequests = posts.map((post) =>
         axios
-          .get(
-            `${
-              import.meta.env.VITE_API_COMMENT
-            }/api/comment/${post.id}`
-          )
+          // .get(`${import.meta.env.VITE_API_COMMENT}/api/comment/${post.id}`)
+          .get(`/api/comment/${post.id}`)
           .then((res) => {
             commentsByPost[post.id] = Array.isArray(res.data) ? res.data : [];
           })
@@ -73,13 +67,16 @@ export const Index = () => {
     };
 
     try {
+      // const { data } = await axios.post(
+      //   `${
+      //     import.meta.env.VITE_API_COMMENT
+      //   }/api/comment/${postId}`,
+      //   newCommentData
+      // );
       const { data } = await axios.post(
-        `${
-          import.meta.env.VITE_API_COMMENT
-        }/api/comment/${postId}`,
+        `/api/comment/${postId}`,
         newCommentData
       );
-
       setNewComment((prevComments) => ({
         ...prevComments,
         [postId]: [...(prevComments[postId] || []), data],
@@ -103,147 +100,131 @@ export const Index = () => {
 
   return (
     <SidebarWithHeader>
-      <Box p={8}>
-        <Heading
-          as='h1'
-          size='xl'
-          mb={6}
-          textAlign='center'
+      {posts.map((post) => (
+        <Box
+          key={post.id}
+          p={6}
+          bg='white'
+          borderWidth={1}
+          borderRadius='lg'
+          shadow='md'
+          _hover={{ shadow: 'lg' }}
         >
-          Todos los Posts
-        </Heading>
-
-        {isLoading ? (
+          {/* ENCABEZADO DEL POST */}
           <HStack
-            justifyContent='center'
-            py={8}
+            spacing={4}
+            mb={4}
           >
-            <Spinner
-              size='xl'
-              color='blue.500'
+            <Avatar
+              name={post.user?.name || 'Usuario desconocido'}
+              size='md'
             />
+            <Text
+              fontWeight='bold'
+              fontSize='lg'
+            >
+              {post.user?.name || 'Usuario desconocido'}
+            </Text>
           </HStack>
-        ) : error ? (
-          <Alert
-            status='error'
-            mb={6}
+
+          {/* CONTENIDO DEL POST */}
+          <Heading
+            as='h2'
+            size='md'
+            mb={2}
+            color='blue.600'
           >
-            <AlertIcon />
-            {error}
-          </Alert>
-        ) : posts.length === 0 ? (
+            {post.title}
+          </Heading>
           <Text
-            fontSize='lg'
-            textAlign='center'
-            mt={6}
+            color='gray.700'
+            mb={4}
+            fontSize='md'
           >
-            No hay posts disponibles.
+            {post.content}
           </Text>
-        ) : (
+
+          <Box
+            borderBottom='1px'
+            borderColor='gray.200'
+            my={4}
+          />
+          {/* COMENTARIOS */}
           <VStack
-            spacing={6}
+            align='start'
+            spacing={3}
+            mb={4}
+            w='full'
+          >
+            <Heading
+              size='sm'
+              color='gray.600'
+            >
+              Comentarios:
+            </Heading>
+
+            {Array.isArray(newComment[post.id]) &&
+            newComment[post.id].length > 0 ? (
+              newComment[post.id].map((comment, index) => (
+                <Box
+                  key={index}
+                  p={3}
+                  bg='gray.100'
+                  borderRadius='md'
+                  w='full'
+                  borderLeft='4px solid blue'
+                  _hover={{ bg: 'gray.200' }}
+                >
+                  <HStack>
+                    <Avatar
+                      name={comment.user}
+                      size='sm'
+                    />
+                    <Text
+                      fontWeight='bold'
+                      fontSize='sm'
+                    >
+                      {comment.user}
+                    </Text>
+                  </HStack>
+                  <Text
+                    fontSize='sm'
+                    color='gray.700'
+                  >
+                    {comment.text}
+                  </Text>
+                </Box>
+              ))
+            ) : (
+              <Text
+                fontSize='sm'
+                color='gray.500'
+              >
+                No hay comentarios aún.
+              </Text>
+            )}
+          </VStack>
+
+          {/* FORMULARIO PARA AGREGAR COMENTARIOS */}
+          <VStack
+            spacing={3}
             align='stretch'
           >
-            {posts.map((post) => (
-              <Box
-                key={post.id}
-                p={6}
-                borderWidth={1}
-                borderRadius='lg'
-                shadow='md'
-                _hover={{ shadow: 'lg' }}
-              >
-                <HStack
-                  spacing={4}
-                  mb={4}
-                >
-                  <Avatar
-                    name={post.user?.name || 'Usuario desconocido'}
-                    size='md'
-                  />
-                  <Text
-                    fontWeight='bold'
-                    fontSize='lg'
-                  >
-                    {post.user?.name || 'Usuario desconocido'}
-                  </Text>
-                </HStack>
-                <Heading
-                  as='h2'
-                  size='md'
-                  mb={2}
-                >
-                  {post.title}
-                </Heading>
-                <Text
-                  color='gray.600'
-                  mb={4}
-                >
-                  {post.content}
-                </Text>
-
-                {/* Comentarios existentes */}
-                <VStack
-                  align='start'
-                  spacing={3}
-                  mb={4}
-                >
-                  <Heading size='sm'>Comentarios:</Heading>
-                  {Array.isArray(newComment[post.id]) &&
-                  newComment[post.id].length > 0 ? (
-                      newComment[post.id].map((comment, index) => (
-                        <Box
-                          key={index}
-                          p={3}
-                          bg='gray.100'
-                          borderRadius='md'
-                          w='full'
-                        >
-                          <HStack>
-                            <Avatar
-                              name={comment.user}
-                              size='sm'
-                            />
-                            <Text fontWeight='bold'>{comment.user}</Text>
-                          </HStack>
-                          <Text fontSize='sm'>{comment.text}</Text>
-                        </Box>
-                      ))
-                    ) : (
-                      <Text
-                        fontSize='sm'
-                        color='gray.500'
-                      >
-                      No hay comentarios aún.
-                      </Text>
-                    )}
-                </VStack>
-
-                {/* Formulario para añadir un comentario */}
-                <VStack
-                  spacing={3}
-                  align='stretch'
-                >
-                  <Textarea
-                    placeholder='Escribe tu comentario aquí...'
-                    value={commentInputs[post.id] || ''}
-                    onChange={(e) =>
-                      handleCommentChange(post.id, e.target.value)
-                    }
-                  />
-                  <Button
-                    colorScheme='blue'
-                    onClick={() => handleCommentSubmit(post.id)}
-                    isDisabled={!commentInputs[post.id]?.trim()}
-                  >
-                    Enviar comentario
-                  </Button>
-                </VStack>
-              </Box>
-            ))}
+            <Textarea
+              placeholder='Escribe tu comentario aquí...'
+              value={commentInputs[post.id] || ''}
+              onChange={(e) => handleCommentChange(post.id, e.target.value)}
+            />
+            <Button
+              colorScheme='blue'
+              onClick={() => handleCommentSubmit(post.id)}
+              isDisabled={!commentInputs[post.id]?.trim()}
+            >
+              Enviar comentario
+            </Button>
           </VStack>
-        )}
-      </Box>
+        </Box>
+      ))}
     </SidebarWithHeader>
   );
 };

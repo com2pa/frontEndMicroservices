@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
+import  useAuth  from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import Menu from '../../layout/Menu';
 import Footer from '../../layout/Footer';
@@ -76,11 +76,11 @@ export const SplitScreen = () => {
         email,
         password,
       };
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_USER}/api/login`,
-        user
-      );
-      // const response = await axios.post(`/api/login`,user);
+      // const response = await axios.post(
+      //   `${import.meta.env.VITE_API_USER}/api/login`,
+      //   user
+      // );
+      const response = await axios.post(`/api/login`,user);
       setAuth(response.data);
       setIsLoading(false);
 

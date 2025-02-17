@@ -28,14 +28,15 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { FiHome, FiMenu, FiChevronDown } from 'react-icons/fi';
-import { useAuth } from '../../hooks/useAuth';
+import  useAuth  from '../../hooks/useAuth';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { FaRegFileAlt } from 'react-icons/fa';
 
 // menu lateral
 const LinkItems = [
-  { name: 'Home', icon: FiHome, to: '/#/dashboard' },
-  { name: 'Post', to: '/#/post' },
+  { name: 'Home', icon: FiHome, to: '/dashboard' },
+  { name: 'Post', icon: FaRegFileAlt, to: '/post' },
 ];
 
 const SidebarContent = ({ onClose, ...rest }) => {
@@ -48,7 +49,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       );
       document.title = currentNavItem ? currentNavItem.label : 'Mi Aplicación';
     }
-  }, [location?.pathname]);
+  }, [location, location.pathname]);
 
   return (
     <Box
@@ -143,10 +144,10 @@ const MobileNav = ({ onOpen, ...rest }) => {
   // cerrar sesion
   const handleLogout = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_USER}/api/logout`
-      );
-      // const response = await axios.get(`/api/logout`);
+      // const response = await axios.get(
+      //   `${import.meta.env.VITE_API_USER}/api/logout`
+      // );
+      const response = await axios.get(`/api/logout`);
       navegate('/');
 
       toast({

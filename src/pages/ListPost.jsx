@@ -22,7 +22,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 const ListPost = ({ post, handleDelete }) => {
   const [comment, setComment] = useState('');
   const [newComment, setNewComment] = useState([]);
-  const { isOpen, onOpen, onClose } = useDisclosure();  
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
   const handleComment = async (e) => {
@@ -31,12 +31,13 @@ const ListPost = ({ post, handleDelete }) => {
     const text = comment;
 
     try {
-      const response = await axios.post(
-        `${
-          import.meta.env.VITE_SERVIDOR_API_COMMENT
-        }/api/comment/${postId}`,
-        { text }
-      );
+      // const response = await axios.post(
+      //   `${
+      //     import.meta.env.VITE_SERVIDOR_API_COMMENT
+      //   }/api/comment/${postId}`,
+      //   { text }
+      // );
+      const response = await axios.post(`/api/comment/${postId}`, { text });
       // Actualiza la lista de comentarios
       setNewComment((prevComments) => [...prevComments, response.data]);
       console.log('comentario agregado ');
@@ -67,9 +68,10 @@ const ListPost = ({ post, handleDelete }) => {
   const fetchComment = useCallback(async () => {
     const postId = post.id;
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVIDOR_API_COMMENT}/api/comment/${postId}`
-      );
+      // const response = await axios.get(
+      //   `${import.meta.env.VITE_SERVIDOR_API_COMMENT}/api/comment/${postId}`
+      // );
+      const response = await axios.get(`/api/comment/${postId}`);
       setNewComment(response.data);
     } catch (error) {
       console.log('Error fetching comments ', error);

@@ -1,28 +1,37 @@
 import { Card, Center, Flex, Spinner } from '@chakra-ui/react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Verify = () => {
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
+    const verifyUser = async () => {
       try {
-        const token = window.location.pathname.split('/')[3];
-        const id = window.location.pathname.split('/')[2];
-        await axios.patch(          
-          `${
-            import.meta.env.VITE_API_POST
-          }/api/users/${id}/${token}`
+        // Extraer ID y Token correctamente con HashRouter
+        const pathParts = window.location.hash.split('/');
+        const id = pathParts[2];
+        const token = pathParts[3];
+
+        await axios.patch(
+          `/api/users/${id}/${token}`,
+          {},
+          { withCredentials: true }
         );
-        
-        window.location.pathname = '/login/';
+
+        // Redirigir correctamente con react-router
+        navigate('/login');
       } catch (error) {
-        setErrorMessage(error.response.data.error);
-        // console.log(error.response.data.error);
+        setErrorMessage(
+          error.response?.data?.error || 'Error en la verificación'
+        );
       }
-    })();
-  }, []);
+    };
+
+    verifyUser();
+  }, [navigate]);
 
   return (
     <Center
