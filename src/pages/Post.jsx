@@ -34,7 +34,7 @@ const Post = () => {
   const fetchUserId = async () => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_API_POST}/api/users`
+        `${import.meta.env.VITE_API_USER}/api/users`
       );
       // const { data } = await axios.get(`/api/users`);
       setUserId(data.id);
