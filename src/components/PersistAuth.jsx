@@ -13,7 +13,8 @@ const PersistAuth = () => {
     const handleUser = async () => {
       try {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_API_USER}/api/refres`
+          `${import.meta.env.VITE_API_USER}/api/refres`,
+          { withCredentials: true }
         );
         // const { data } = await axios.get(
         //   `/api/refres`
