@@ -58,7 +58,7 @@ const Post = () => {
           content,
           userId,
         },
-        git { withCredentials: true }        
+        { withCredentials: true }        
       );
       // const response = await axios.post(`/api/post`, {
       //   title,
