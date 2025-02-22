@@ -80,7 +80,7 @@ export const SignupCard = () => {
         }
       );
       // const { data } = await axios.post(`/api/users`,{name,email,password});
-      console.log('creado! ', data);
+      // console.log('creado! ', data);
       toast({
         position: 'top',
         title: 'Success',

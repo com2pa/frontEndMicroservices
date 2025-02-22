@@ -43,8 +43,8 @@ export const Index = () => {
       const commentsByPost = {};
       const commentsRequests = posts.map((post) =>
         axios
-          // .get(`${import.meta.env.VITE_API_COMMENT}/api/comment/${post.id}`)
-          .get(`/api/comment/${post.id}`)
+          .get(`${import.meta.env.VITE_API_COMMENT}/api/comment/${post.id}`)
+          // .get(`/api/comment/${post.id}`)
           .then((res) => {
             commentsByPost[post.id] = Array.isArray(res.data) ? res.data : [];
           })
@@ -165,8 +165,7 @@ export const Index = () => {
               Comentarios:
             </Heading>
 
-            {Array.isArray(newComment[post.id]) &&
-            newComment[post.id].length > 0 ? (
+            {Array.isArray(newComment[post.id]) && newComment[post.id].length > 0 ? (
               newComment[post.id].map((comment, index) => (
                 <Box
                   key={index}

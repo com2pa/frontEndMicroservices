@@ -15,7 +15,7 @@ import SidebarWithHeader from '../pagesPrivate/LayoutPrivate/SidebarWithHeader';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import ListPost from './ListPost';
-import  useAuth  from '../hooks/useAuth';
+import useAuth from '../hooks/useAuth';
 const Post = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -58,14 +58,14 @@ const Post = () => {
           content,
           userId,
         },
-        { withCredentials: true }        
+        { withCredentials: true }
       );
       // const response = await axios.post(`/api/post`, {
       //   title,
       //   content,
       //   userId,
-      // });
-      // console.log('post creado...',response);
+      // },{ withCredentials: true });
+      // console.log('post creado...', response);
 
       toast({
         position: 'top',
@@ -122,7 +122,7 @@ const Post = () => {
         }
       );
       // const data = await axios.delete(`/api/post/${id}`);
-      //   console.log(data);
+      // console.log(data);
       setPost((data) => data.filter((post) => post.id !== id));
 
       toast({

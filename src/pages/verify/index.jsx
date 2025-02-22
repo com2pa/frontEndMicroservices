@@ -19,7 +19,8 @@ export const Verify = () => {
         console.log(token);
 
         await axios.patch(
-          `import.meta.env.VITE_API_USER}/api/users/${id}/${token}`
+          `import.meta.env.VITE_API_USER}/api/users/${id}/${token}`,
+          { withCredentials: true }
         );
 
         // await axios.patch(

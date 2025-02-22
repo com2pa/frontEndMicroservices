@@ -16,10 +16,9 @@ const PersistAuth = () => {
           `${import.meta.env.VITE_API_USER}/api/refres`,
           { withCredentials: true }
         );
-        // const { data } = await axios.get(
-        //   `/api/refres`
-        // );
-
+        // const { data } = await axios.get(`/api/refres`, {
+        //   withCredentials: true,
+        // });
         setAuth(data);
         setIsLoading(false);
       } catch (error) {
