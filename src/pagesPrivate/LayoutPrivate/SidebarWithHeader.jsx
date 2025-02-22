@@ -145,7 +145,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const handleLogout = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_USER}/api/logout`
+        `${import.meta.env.VITE_API_USER}/api/logout`,
+        { withCredentials: true }
       );
       // const response = await axios.get(`/api/logout`);
       navegate('/');
