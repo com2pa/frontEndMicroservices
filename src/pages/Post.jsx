@@ -19,7 +19,6 @@ import useAuth from '../hooks/useAuth';
 const Post = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [userId, setUserId] = useState('');
   const [post, setPost] = useState([]);
   const { auth } = useAuth();
 
@@ -30,26 +29,23 @@ const Post = () => {
   const handleContentInput = ({ target }) => {
     setContent(target.value);
   };
-  // obtener el id de usuario quien inicio sesion
-  const fetchUserId = async () => {
-    try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_USER}/api/users`
-      );
-      // const { data } = await axios.get(`/api/users`);
-      setUserId(data.id);
-      // console.log('user id',data[0].id);
-    } catch (error) {
-      console.error('Error fetching user ID:', error);
-    }
-  };
-  fetchUserId();
 
   // envio
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // console.log(title,content,userId)
+    // Verificamos si hay un usuario logueado
+    if (!auth?.id) {
+      toast({
+        position: 'top',
+        title: 'Error',
+        description: 'Debes estar logueado para crear un post.',
+        status: 'error',
+        duration: 4000,
+      });
+      return;
+    }
+    const userId = auth?.id;
+    // console.log(title, content, userId);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_POST}/api/post`,
@@ -75,23 +71,25 @@ const Post = () => {
         status: 'success',
         duration: 4000,
       });
+      // Limpiar el formulario después de crear el post
       setTitle('');
       setContent('');
-      fetchPosts();
+      fetchPosts(); // Actualiza la lista de posts
     } catch (error) {
       console.log(error);
       toast({
         position: 'top',
         title: 'Error',
-        description: error.message,
+        description: error.response?.data?.message || 'Error al crear el post.',
         status: 'error',
         duration: 4000,
       });
     }
   };
 
-  // obtener todo los post
+  //  Función para obtener los posts del usuario logueado
   const fetchPosts = async () => {
+    if (!auth?.id) return;
     try {
       const { data } = await axios.get(
         `${import.meta.env.VITE_API_POST}/api/post`,
@@ -106,10 +104,9 @@ const Post = () => {
       console.error('Error fetching posts:', error);
     }
   };
+  // Llamar a fetchPosts cuando auth cambie
   useEffect(() => {
-    if (auth?.id) {
-      fetchPosts();
-    }
+    fetchPosts();
   }, [auth]);
 
   // eliminar
